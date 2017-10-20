@@ -5099,7 +5099,7 @@ slugid@^1.1.0:
   dependencies:
     uuid "^2.0.1"
 
-slugify@^1.0.2:
+slugify@^1.0.2, slugify@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.2.1.tgz#2118f4b0fbcfd79d7b2c451c22b724e5c1991330"
 
