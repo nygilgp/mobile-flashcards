@@ -1,11 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { Constants } from 'expo'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import DeckApi from './utils/DeckApi'
+import Decks from './components/Decks'
+import AddDeck from './components/AddDeck'
+
+function FlashStatusBar({backgroundColor, ...props}) {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  )
+}
 
 export default class App extends React.Component {
   state = {
     decks : null
   }
+  componentDidMount() {
+    DeckApi.getDecks().then((decks) => {
+      this.setState({decks});
+    }).done();
+  }
+  /*
   componentDidMount() {
     question = {
         question: 'What is React?',
@@ -21,30 +39,15 @@ export default class App extends React.Component {
       console.log(decks);
     }).done();
   }
+  */
   render() {
-
-
-
+    const { decks } = this.state;
     return (
-      <View style={styles.container}>
-        <Text>Testing API</Text>
-        <Text> what is the problem {
-
-          (this.state.decks !== null && this.state.decks.map((deck) => {
-            return deck.title + ' - ' + deck['questions'].length
-          }))
-
-         }</Text>
+      <View style={{flex: 1}}>
+          <FlashStatusBar  backgroundColor='black' barStyle="light-content" />
+          <Decks decks={decks} />
+          <AddDeck />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
