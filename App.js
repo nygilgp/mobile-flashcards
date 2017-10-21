@@ -13,6 +13,14 @@ function FlashStatusBar({backgroundColor, ...props}) {
     </View>
   )
 }
+const Tabs = TabNavigator({
+  Decks: {
+    screen: Decks
+  },
+  'New Deck': {
+    screen: AddDeck
+  }
+})
 
 export default class App extends React.Component {
   state = {
@@ -22,6 +30,9 @@ export default class App extends React.Component {
     DeckApi.getDecks().then((decks) => {
       this.setState({decks});
     }).done();
+  }
+  updateDecks = (decks) => {
+    this.setState({decks});
   }
   /*
   componentDidMount() {
@@ -39,14 +50,18 @@ export default class App extends React.Component {
       console.log(decks);
     }).done();
   }
+
+  <Decks decks={decks}  />
+  <AddDeck updateAppDecks={this.updateDecks} />
   */
   render() {
     const { decks } = this.state;
+    const updateAppDecks = this.updateDecks
     return (
       <View style={{flex: 1}}>
           <FlashStatusBar  backgroundColor='black' barStyle="light-content" />
-          <Decks decks={decks} />
-          <AddDeck />
+          <Tabs screenProps={{decks, updateAppDecks}}  />
+
       </View>
     );
   }

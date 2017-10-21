@@ -13,11 +13,11 @@ export default class Decks extends React.Component {
     )
   }
   render() {
-    const {decks} = this.props;
+    const {decks} = this.props.screenProps;
     if(decks === null) {
       return (
         <View style={{flex: 1}}>
-          <Text>No decks, please go on and add some decks.</Text>
+          <Text>No decks, please go ahead and add some decks.</Text>
         </View>
       )
     }
