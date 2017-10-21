@@ -74,9 +74,17 @@ class DeckApi {
     static async addCardToDeck(titleId, card) {
         return await AsyncStorage.getItem(DECK_STORAGE_KEY)
         .then((results) => JSON.parse(results))
-        .then((decks) => {
-            decks[titleId]['questions'].push(card);
-            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(decks)).done();
+        .then((data) => {
+            data[titleId]['questions'].push(card);
+            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(data)).done();
+            let decks = [];
+            decks = Object.keys(data).map((key) => {
+                return {
+                    ...data[key],
+                    slug: key
+                }
+            });
+            return { decks };
         })
     }
 }

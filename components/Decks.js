@@ -1,16 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import DeckApi from '../utils/DeckApi'
 
 export default class Decks extends React.Component {
-  _keyExtractor = (item, index) => item.slug;
-  renderItem({item}) {
-    return (
-      <View>
-        <Text>{ item.title }</Text>
-        <Text>{ item['questions'] !== undefined && item['questions'].length }</Text>
-      </View>
-    )
+  _keyExtractor = (item, index) => {
+    return item.slug;
   }
   render() {
     const {decks} = this.props.screenProps;
@@ -25,7 +19,16 @@ export default class Decks extends React.Component {
       <View style={{flex: 1}}>
           <FlatList
             data={ decks }
-            renderItem = { this.renderItem }
+            renderItem = { ({item}) => {
+              return(
+                <View>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {slug: item.slug})}>
+                  <Text>{ item.title }</Text>
+                  <Text>{ item['questions'] !== undefined && item['questions'].length }</Text>
+                  </TouchableOpacity>
+                </View>
+              )
+            } }
             keyExtractor={this._keyExtractor}
             />
       </View>

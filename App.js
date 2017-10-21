@@ -4,7 +4,9 @@ import { Constants } from 'expo'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import DeckApi from './utils/DeckApi'
 import Decks from './components/Decks'
+import Deck from './components/Deck'
 import AddDeck from './components/AddDeck'
+import AddCard from './components/AddCard'
 
 function FlashStatusBar({backgroundColor, ...props}) {
   return (
@@ -20,7 +22,21 @@ const Tabs = TabNavigator({
   'New Deck': {
     screen: AddDeck
   }
-})
+});
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs,
+    header: null
+  },
+  Deck: {
+    screen: Deck
+  },
+  'Add Card': {
+    screen: AddCard
+  }
+},{
+headerMode: 'none'
+});
 
 export default class App extends React.Component {
   state = {
@@ -56,11 +72,11 @@ export default class App extends React.Component {
   */
   render() {
     const { decks } = this.state;
-    const updateAppDecks = this.updateDecks
+    const updateAppDecks = this.updateDecks;
     return (
       <View style={{flex: 1}}>
           <FlashStatusBar  backgroundColor='black' barStyle="light-content" />
-          <Tabs screenProps={{decks, updateAppDecks}}  />
+          <MainNavigator screenProps={{decks, updateAppDecks}}  />
 
       </View>
     );
