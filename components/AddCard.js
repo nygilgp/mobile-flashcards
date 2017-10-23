@@ -18,8 +18,9 @@ export default class AddCard extends React.Component {
     if(card.question != 'Deck Title' || card.question != '') {
       DeckApi.addCardToDeck(slug, card)
       .then(({decks}) => {
-        //updateAppDecks(decks);
+        updateAppDecks(decks);
         this.setState({question : '', answer: ''});
+        this.props.navigation.navigate('Deck', { slug });
       });
     }
   }

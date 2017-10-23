@@ -7,6 +7,8 @@ import Decks from './components/Decks'
 import Deck from './components/Deck'
 import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
+import Quiz from './components/Quiz'
+import Result from './components/Result'
 
 function FlashStatusBar({backgroundColor, ...props}) {
   return (
@@ -33,6 +35,12 @@ const MainNavigator = StackNavigator({
   },
   'Add Card': {
     screen: AddCard
+  },
+  'Quiz': {
+    screen: Quiz
+  },
+  'Result': {
+    screen: Result
   }
 },{
 headerMode: 'none'

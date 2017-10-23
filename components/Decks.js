@@ -24,7 +24,7 @@ export default class Decks extends React.Component {
                 <View>
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {slug: item.slug})}>
                   <Text>{ item.title }</Text>
-                  <Text>{ item['questions'] !== undefined && item['questions'].length }</Text>
+                  <Text>{ item['questions'] !== undefined && item['questions'].length } cards</Text>
                   </TouchableOpacity>
                 </View>
               )

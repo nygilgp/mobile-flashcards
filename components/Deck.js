@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import DeckApi from '../utils/DeckApi'
-import AddCard from './AddCard'
 
 export default class Deck extends React.Component {
   state = {
@@ -25,10 +24,13 @@ export default class Deck extends React.Component {
     return (
       <View style={{flex: 1}}>
           <Text>{ deck.title }</Text>
+          <Text>{ deck['questions'] !== undefined && deck['questions'].length } cards</Text>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Add Card', {slug: deck.slug})}>
             <Text>Add Card</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Quiz', {slug: deck.slug})}>
           <Text>Start Quiz</Text>
+          </TouchableOpacity>
       </View>
     );
   }
