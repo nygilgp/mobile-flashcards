@@ -12,17 +12,16 @@ function SubmitBtn ({ onPress }) {
 export default class AddDeck extends React.Component {
   state = {
     deckTitle : '',
-    slug: ''
+    slug: '',
+    error: true
   }
   addDeckTitle = (title, updateAppDecks) => {
-    if(title != 'Deck Title' || title != '') {
       DeckApi.saveDeckTitle(title)
       .then(({decks, slug}) => {
         updateAppDecks(decks);
-        this.setState({deckTitle : ''});
+        this.setState({deckTitle : '', error: true});
         this.props.navigation.navigate('Deck', { slug, title });
       });
-    }
   }
   render() {
     const { updateAppDecks } = this.props.screenProps;
@@ -32,9 +31,15 @@ export default class AddDeck extends React.Component {
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(deckTitle) => this.setState({deckTitle})}
+            placeholder='Deck Title'
             value={this.state.deckTitle}
           />
-          <SubmitBtn onPress={() => this.addDeckTitle(this.state.deckTitle, updateAppDecks)} />
+          <SubmitBtn onPress={() => {
+            if(this.state.deckTitle !== '') {
+                this.setState({error:false});
+                this.addDeckTitle(this.state.deckTitle, updateAppDecks)
+            }
+          }} />
       </View>
     );
   }

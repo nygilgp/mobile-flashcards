@@ -28,12 +28,14 @@ export default class Deck extends React.Component {
       <View style={{flex: 1}}>
           <Text>{ deck.title }</Text>
           <Text>{ deck['questions'] !== undefined && deck['questions'].length } cards</Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Add Card', {slug: deck.slug})}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Add Card', {slug: deck.slug, title: deck.title })}>
             <Text>Add Card</Text>
           </TouchableOpacity>
+          { deck['questions'] !== undefined && deck['questions'].length > 0 &&
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Quiz', {slug: deck.slug})}>
           <Text>Start Quiz</Text>
           </TouchableOpacity>
+          }
       </View>
     );
   }

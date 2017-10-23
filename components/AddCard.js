@@ -12,17 +12,17 @@ function SubmitBtnCard ({ onPress }) {
 export default class AddCard extends React.Component {
   state = {
     question: '',
-    answer: ''
+    answer: '',
+    error: true
   }
   addCard = (slug, card, updateAppDecks) => {
-    if(card.question != 'Deck Title' || card.question != '') {
+    const { title } = this.props.navigation.state.params;
       DeckApi.addCardToDeck(slug, card)
       .then(({decks}) => {
         updateAppDecks(decks);
-        this.setState({question : '', answer: ''});
-        this.props.navigation.navigate('Deck', { slug });
+        this.setState({question : '', answer: '', error: true});
+        this.props.navigation.navigate('Deck', { slug, title });
       });
-    }
   }
   render() {
     let { slug } = this.props.navigation.state.params;
@@ -32,14 +32,21 @@ export default class AddCard extends React.Component {
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(question) => this.setState({question})}
+            placeholder='Question'
             value={this.state.question}
           />
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(answer) => this.setState({answer})}
+            placeholder='Answer'
             value={this.state.answer}
           />
-          <SubmitBtnCard onPress={() => this.addCard(slug, {question:this.state.question, answer:this.state.answer}, updateAppDecks )} />
+          <SubmitBtnCard onPress={() => {
+            if(this.state.question !== '' && this.state.answer !== '') {
+                this.setState({error:false});
+                this.addCard(slug, {question:this.state.question, answer:this.state.answer}, updateAppDecks )
+            }
+            }} />
       </View>
     );
   }

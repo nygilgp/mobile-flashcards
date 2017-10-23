@@ -19,18 +19,16 @@ export default class Quiz extends React.Component {
         this.setState({deck});
         const totalQuestion = deck['questions'].length;
         this.setState({totalQuestion});
-        this.renderCurrentQuiz(null);
+        if(totalQuestion > 0) {
+          this.renderCurrentQuiz(null);
+        }
     }).done();
   }
   renderCurrentQuiz = (answer) => {
     const  quizCounter = answer === null ? 0 : this.state.answeredQuestionsCount + 1;
+    const { slug } = this.props.navigation.state.params;
     this.animateQuestion();
-    if(quizCounter == this.state.totalQuestion) {
-      const { slug } = this.props.navigation.state.params;
-      this.setState((prevState) => ({
-            correctAnswers: answer ? prevState.correctAnswers + 1 : prevState.correctAnswers,
-            answeredQuestionsCount: prevState.answeredQuestionsCount + 1,
-        }))
+    if(quizCounter >= this.state.totalQuestion) {
       NotificationApi.clearLocalNotifications()
       .then(NotificationApi.setLocalNotifications);
       this.props.navigation.navigate('Result', {
@@ -85,7 +83,7 @@ export default class Quiz extends React.Component {
   }
   render() {
     let { deck, totalQuestion, answeredQuestionsCount, correctAnswers, currentQuizRender } = this.state;
-    if(deck === null || totalQuestion === 0) {
+    if(totalQuestion === 0) {
       return (
         <View>
           <Text>Unable to load questions.</Text>
@@ -94,20 +92,21 @@ export default class Quiz extends React.Component {
           </TouchableOpacity>
         </View>
       )
+    } else {
+      return (
+        <View style={{flex: 1}}>
+            <Text>{answeredQuestionsCount + 1 >  totalQuestion ? totalQuestion :  answeredQuestionsCount + 1}/{totalQuestion}</Text>
+            <Text>Corrent: {correctAnswers}</Text>
+            <Text>Quiz page { deck.title }</Text>
+            <View>{ currentQuizRender }</View>
+            <TouchableOpacity onPress={() => this.renderCurrentQuiz(true)}>
+              <Text>Correct</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.renderCurrentQuiz(false)}>
+            <Text>Incorrect</Text>
+            </TouchableOpacity>
+        </View>
+      );
     }
-    return (
-      <View style={{flex: 1}}>
-          <Text>{answeredQuestionsCount + 1}/{totalQuestion}</Text>
-          <Text>Corrent: {correctAnswers}</Text>
-          <Text>Quiz page { deck.title }</Text>
-          <View>{ currentQuizRender }</View>
-          <TouchableOpacity onPress={() => this.renderCurrentQuiz(true)}>
-            <Text>Correct</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.renderCurrentQuiz(false)}>
-          <Text>Incorrect</Text>
-          </TouchableOpacity>
-      </View>
-    );
   }
 }
