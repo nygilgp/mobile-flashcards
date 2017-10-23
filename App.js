@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { Constants } from 'expo'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import DeckApi from './utils/DeckApi'
+import NotificationApi from './utils/NotificationApi'
 import Decks from './components/Decks'
 import Deck from './components/Deck'
 import AddDeck from './components/AddDeck'
@@ -54,6 +55,7 @@ export default class App extends React.Component {
     DeckApi.getDecks().then((decks) => {
       this.setState({decks});
     }).done();
+    NotificationApi.setLocalNotifications();
   }
   updateDecks = (decks) => {
     this.setState({decks});

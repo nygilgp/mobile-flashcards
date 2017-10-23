@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
 import DeckApi from '../utils/DeckApi'
+import NotificationApi from '../utils/NotificationApi'
 
 export default class Quiz extends React.Component {
   state = {
@@ -30,6 +31,8 @@ export default class Quiz extends React.Component {
             correctAnswers: answer ? prevState.correctAnswers + 1 : prevState.correctAnswers,
             answeredQuestionsCount: prevState.answeredQuestionsCount + 1,
         }))
+      NotificationApi.clearLocalNotifications()
+      .then(NotificationApi.setLocalNotifications);
       this.props.navigation.navigate('Result', {
         correct: answer ? this.state.correctAnswers + 1: this.state.correctAnswers,
         totalQuestions: this.state.totalQuestion,
