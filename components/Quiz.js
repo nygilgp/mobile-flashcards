@@ -36,7 +36,8 @@ export default class Quiz extends React.Component {
       this.props.navigation.navigate('Result', {
         correct: answer ? this.state.correctAnswers + 1: this.state.correctAnswers,
         totalQuestions: this.state.totalQuestion,
-        slug });
+        slug,
+        title: this.state.deck.title });
     } else {
       const currentQuizRender = this.loadCurrentQuizView(quizCounter);
       if(answer != null) {

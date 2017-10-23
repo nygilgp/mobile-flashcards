@@ -20,37 +20,74 @@ function FlashStatusBar({backgroundColor, ...props}) {
 }
 const Tabs = TabNavigator({
   Decks: {
-    screen: Decks
+    screen: Decks,
   },
   'New Deck': {
     screen: AddDeck
   }
+}, {
+  tabBarOptions: {
+      style: {
+        backgroundColor: 'black',
+      },
+    }
 });
 const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
-    header: null
+    navigationOptions: {
+      header: null,
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'black',
+      }
+    }
   },
   Deck: {
-    screen: Deck
+    screen: Deck,
+    navigationOptions: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'black',
+      }
+    }
   },
   'Add Card': {
-    screen: AddCard
+    screen: AddCard,
+    navigationOptions: {
+      title: 'Add Card',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'black',
+      }
+    }
   },
   'Quiz': {
-    screen: Quiz
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Quiz',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'black',
+      }
+    }
   },
   'Result': {
-    screen: Result
+    screen: Result,
+    navigationOptions: {
+      title: 'Result',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'black',
+      }
+    }
   }
-},{
-headerMode: 'none'
 });
 
 export default class App extends React.Component {
   state = {
     decks : null
-  }
+  };
   componentDidMount() {
     DeckApi.getDecks().then((decks) => {
       this.setState({decks});
@@ -60,26 +97,6 @@ export default class App extends React.Component {
   updateDecks = (decks) => {
     this.setState({decks});
   }
-  /*
-  componentDidMount() {
-    question = {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
-      };
-    DeckApi.saveDeckTitle('Deck2');
-    //DeckApi.addCardToDeck('Deck2', question).done();
-    DeckApi.getDeck('Deck2').then((deck) => {
-      console.log(deck);
-    }).done();
-    DeckApi.getDecks().then((decks) => {
-      this.setState({decks});
-      console.log(decks);
-    }).done();
-  }
-
-  <Decks decks={decks}  />
-  <AddDeck updateAppDecks={this.updateDecks} />
-  */
   render() {
     const { decks } = this.state;
     const updateAppDecks = this.updateDecks;
@@ -87,7 +104,6 @@ export default class App extends React.Component {
       <View style={{flex: 1}}>
           <FlashStatusBar  backgroundColor='black' barStyle="light-content" />
           <MainNavigator screenProps={{decks, updateAppDecks}}  />
-
       </View>
     );
   }

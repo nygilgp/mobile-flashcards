@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import DeckApi from '../utils/DeckApi'
 
 export default class Deck extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.title,
+  });
   state = {
     deck: null
   }

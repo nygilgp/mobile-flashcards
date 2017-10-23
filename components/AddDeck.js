@@ -20,7 +20,7 @@ export default class AddDeck extends React.Component {
       .then(({decks, slug}) => {
         updateAppDecks(decks);
         this.setState({deckTitle : ''});
-        this.props.navigation.navigate('Deck', { slug });
+        this.props.navigation.navigate('Deck', { slug, title });
       });
     }
   }
