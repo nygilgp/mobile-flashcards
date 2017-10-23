@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import DeckApi from '../utils/DeckApi'
 
-function SubmitBtnCard ({ onPress }) {
+function SubmitBtnCard ({ onPress, style }) {
   return (
-    <TouchableOpacity onPress={onPress}>
-        <Text>Submit</Text>
+    <TouchableOpacity onPress={onPress} style={ style.button }>
+        <Text style={ style.buttonText }>Submit</Text>
     </TouchableOpacity>
   )
 }
@@ -28,9 +28,15 @@ export default class AddCard extends React.Component {
     let { slug } = this.props.navigation.state.params;
     const { updateAppDecks } = this.props.screenProps;
     return (
-      <View style={{flex: 1}}>
+      <View style={style=styles.container}>
+        <KeyboardAvoidingView behavior={this.state.behavior} style={{
+            flex: 1,
+            justifyContent: 'flex-start',
+            paddingHorizontal: 20,
+            paddingTop: 20,
+          }} >
           <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            style={{height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 30}}
             onChangeText={(question) => this.setState({question})}
             placeholder='Question'
             value={this.state.question}
@@ -41,16 +47,34 @@ export default class AddCard extends React.Component {
             placeholder='Answer'
             value={this.state.answer}
           />
-          <SubmitBtnCard onPress={() => {
+          <SubmitBtnCard
+          style={{...styles}}
+          onPress={() => {
             if(this.state.question !== '' && this.state.answer !== '') {
                 this.setState({error:false});
                 this.addCard(slug, {question:this.state.question, answer:this.state.answer}, updateAppDecks )
             }
             }} />
+        </KeyboardAvoidingView>
       </View>
     );
   }
 }
 
-
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  button: {
+    padding: 10,
+    backgroundColor: 'black',
+    alignSelf: 'center',
+    borderRadius: 5,
+    margin: 20,
+  },
+  buttonText :{
+    color: 'white',
+    fontSize: 20,
+  }
+});

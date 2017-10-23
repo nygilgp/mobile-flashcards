@@ -10,6 +10,7 @@ import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
 import Quiz from './components/Quiz'
 import Result from './components/Result'
+import { AppLoading} from 'expo'
 
 function FlashStatusBar({backgroundColor, ...props}) {
   return (
@@ -86,20 +87,26 @@ const MainNavigator = StackNavigator({
 
 export default class App extends React.Component {
   state = {
-    decks : null
+    decks : null,
+    ready: false,
   };
   componentDidMount() {
     DeckApi.getDecks().then((decks) => {
       this.setState({decks});
-    }).done();
+    })
+    .then(() => this.setState(() => ({ready: true})))
+    .done();
     NotificationApi.setLocalNotifications();
   }
   updateDecks = (decks) => {
     this.setState({decks});
   }
   render() {
-    const { decks } = this.state;
+    const { decks, ready } = this.state;
     const updateAppDecks = this.updateDecks;
+    if (ready === false) {
+      return <AppLoading />
+    }
     return (
       <View style={{flex: 1}}>
           <FlashStatusBar  backgroundColor='black' barStyle="light-content" />

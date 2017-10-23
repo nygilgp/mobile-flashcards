@@ -19,24 +19,44 @@ export default class Deck extends React.Component {
     let { deck } = this.state;
     if(deck === null) {
       return (
-        <View>
+        <View style={styles.container}>
           <Text>Unable to load deck.</Text>
         </View>
       )
     }
     return (
-      <View style={{flex: 1}}>
-          <Text>{ deck.title }</Text>
-          <Text>{ deck['questions'] !== undefined && deck['questions'].length } cards</Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Add Card', {slug: deck.slug, title: deck.title })}>
-            <Text>Add Card</Text>
+      <View style={styles.container}>
+          <Text style={{ fontSize: 34, textAlign: 'center' }}>{ deck.title }</Text>
+          <Text style={{ fontSize: 12, textAlign: 'center', color: '#666666' }}>{ deck['questions'] !== undefined && deck['questions'].length } cards</Text>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Add Card', {slug: deck.slug, title: deck.title })}>
+            <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
           { deck['questions'] !== undefined && deck['questions'].length > 0 &&
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Quiz', {slug: deck.slug})}>
-          <Text>Start Quiz</Text>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Quiz', {slug: deck.slug})}>
+          <Text style={styles.buttonText} >Start Quiz</Text>
           </TouchableOpacity>
           }
       </View>
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+  button: {
+    padding: 10,
+    backgroundColor: 'black',
+    alignSelf: 'center',
+    borderRadius: 5,
+    margin: 20,
+  },
+  buttonText :{
+    color: 'white',
+    fontSize: 20,
+  }
+});

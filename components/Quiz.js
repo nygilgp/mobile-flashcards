@@ -67,15 +67,15 @@ export default class Quiz extends React.Component {
     return (
         <View>
           <Animated.View style={{ opacity: questionOpacity }}>
-            <Text>{card.question}</Text>
+            <Text style={{ fontSize: 24, textAlign: 'center' }}>{card.question}</Text>
             <TouchableOpacity onPress={() => this.animateAnswer()}>
-              <Text>Answer</Text>
+              <Text style={{ textAlign: 'center', color: 'maroon' }}>Answer</Text>
             </TouchableOpacity>
           </Animated.View>
           <Animated.View style={{ opacity: answerOpacity }}>
-            <Text>{card.answer}</Text>
+            <Text style={{ fontSize: 24, textAlign: 'center' }}>{card.answer}</Text>
             <TouchableOpacity onPress={() => this.animateQuestion()}>
-              <Text>Question</Text>
+              <Text style={{ textAlign: 'center', color: 'green' }}>Question</Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
@@ -94,19 +94,45 @@ export default class Quiz extends React.Component {
       )
     } else {
       return (
-        <View style={{flex: 1}}>
-            <Text>{answeredQuestionsCount + 1 >  totalQuestion ? totalQuestion :  answeredQuestionsCount + 1}/{totalQuestion}</Text>
-            <Text>Corrent: {correctAnswers}</Text>
-            <Text>Quiz page { deck.title }</Text>
-            <View>{ currentQuizRender }</View>
-            <TouchableOpacity onPress={() => this.renderCurrentQuiz(true)}>
-              <Text>Correct</Text>
+        <View style={styles.container}>
+            <Text style={{
+              flex: 1,
+              justifyContent:'flex-start',
+              alignItems: 'flex-start'
+            }}>{answeredQuestionsCount + 1 >  totalQuestion ? totalQuestion :  answeredQuestionsCount + 1}/{totalQuestion}</Text>
+            <View style={{
+              flex: 1,
+              justifyContent:'flex-start',
+              alignItems: 'center'
+            }}>{ currentQuizRender }</View>
+            <TouchableOpacity style={styles.button} onPress={() => this.renderCurrentQuiz(true)}>
+              <Text style={styles.buttonText} >Correct</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.renderCurrentQuiz(false)}>
-            <Text>Incorrect</Text>
+            <TouchableOpacity style={styles.button} onPress={() => this.renderCurrentQuiz(false)}>
+            <Text style={styles.buttonText} >Incorrect</Text>
             </TouchableOpacity>
         </View>
       );
     }
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'flex-start',
+  },
+  button: {
+    padding: 10,
+    backgroundColor: 'black',
+    alignSelf: 'center',
+    borderRadius: 5,
+    margin: 20,
+  },
+  buttonText :{
+    color: 'white',
+    fontSize: 20,
+  }
+});

@@ -10,8 +10,9 @@ export default class Decks extends React.Component {
     const {decks} = this.props.screenProps;
     if(decks === null) {
       return (
-        <View style={{flex: 1}}>
-          <Text>No decks, please go ahead and add some decks.</Text>
+        <View style={{flex: 1, backgroundColor: 'white',
+          justifyContent: 'space-between', alignItems: 'center'}}>
+          <Text style={{ textAlign: 'center' }}>No decks, please go ahead and add some decks.</Text>
         </View>
       )
     }
@@ -22,9 +23,9 @@ export default class Decks extends React.Component {
             renderItem = { ({item}) => {
               return(
                 <View>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {slug: item.slug, title: item.title})}>
-                  <Text>{ item.title }</Text>
-                  <Text>{ item['questions'] !== undefined && item['questions'].length } cards</Text>
+                  <TouchableOpacity  style={styles.item} onPress={() => this.props.navigation.navigate('Deck', {slug: item.slug, title: item.title})}>
+                  <Text style={{textAlign: 'center', fontSize: 24 }}>{ item.title }</Text>
+                  <Text style={{textAlign: 'center', color: '#666666'}}>{ item['questions'] !== undefined && item['questions'].length } cards</Text>
                   </TouchableOpacity>
                 </View>
               )
@@ -35,3 +36,13 @@ export default class Decks extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  item: {
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+    padding: 10
+  }
+});
